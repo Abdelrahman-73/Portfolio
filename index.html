@@ -1,403 +1,372 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  ChevronRight, 
-  Code, 
-  Cpu, 
-  Brain, 
-  ScanFace, 
-  Briefcase, 
-  GraduationCap, 
-  Terminal,
-  Globe,
-  MessageSquare
-} from 'lucide-react';
-
-const personalInfo = {
-  name: "Abdelrahman Hosam Mostafa",
-  title: "AI Engineer",
-  location: "Nasr City, Cairo, Egypt",
-  phone: "+20 155 375 1976",
-  email: "abdelrahmanhosam73@gmail.com",
-  linkedin: "abdelrahmanhosam07", // Will construct URL
-  summary: "Versatile AI Engineer with comprehensive expertise spanning Computer Vision, Machine Learning, and Generative AI. Skilled in engineering end-to-end pipelines and deploying advanced Deep Learning architectures, including CNNs and Transformers.",
-  languages: ["English (Professional)", "German (Intermediate B1)", "Arabic (Native)"]
-};
-
-const skills = [
-  {
-    category: "Generative AI",
-    icon: <Brain className="w-6 h-6 text-purple-400" />,
-    items: ["LLMs", "RAG", "Agents", "Transformers (BERT, GPT)", "Prompt Engineering", "Fine-tuning (LoRA/PEFT)"]
-  },
-  {
-    category: "Machine Learning",
-    icon: <Cpu className="w-6 h-6 text-blue-400" />,
-    items: ["PCA", "Clustering (K-Means)", "Random Forest", "XGBoost", "Scikit-learn", "Regression", "Classification"]
-  },
-  {
-    category: "Computer Vision",
-    icon: <ScanFace className="w-6 h-6 text-teal-400" />,
-    items: ["OpenCV", "CNNs", "Object Detection", "MediaPipe", "Facial Recognition"]
-  },
-  {
-    category: "Tech Stack",
-    icon: <Terminal className="w-6 h-6 text-emerald-400" />,
-    items: ["Python", "PyTorch", "TensorFlow/Keras", "LangChain", "FAISS", "Streamlit", "SQL", "Docker", "Git"]
-  }
-];
-
-const experience = [
-  {
-    title: "Generative AI Engineer Fellow",
-    company: "Digital Egypt Pioneers Initiative (DEPI) - MCIT",
-    date: "Nov 2025 - Present",
-    description: [
-      "Selected for a government-backed fellowship to engineer advanced Generative AI applications using Transformers and Self-Attention mechanisms.",
-      "Building scalable RAG systems and autonomous Agents with memory management to execute complex multi-step workflows."
-    ]
-  },
-  {
-    title: "Machine Learning Engineer Trainee",
-    company: "Sprints (Microsoft Partner)",
-    date: "Aug 2024 - Oct 2024",
-    location: "Remote",
-    description: [
-      "Completed an intensive track, building end-to-end pipelines and optimizing model accuracy by over 15% via feature engineering.",
-      "Capstone: Developed a predictive analytics model utilizing Scikit-learn and Deep Learning (TensorFlow) for regression and classification tasks."
-    ]
-  }
-];
-
-const projects = [
-  {
-    title: "Clinical Decision Support System",
-    subtitle: "Heart Disease Prediction",
-    description: [
-      "Engineered an end-to-end pipeline on the UCI dataset, benchmarking models (SVM, Random Forest) to maximize recall for disease prediction.",
-      "Applied unsupervised learning (K-Means) and PCA to discover hidden patient risk patterns and reduce dimensionality."
-    ],
-    tools: ["Scikit-learn", "Pandas", "PCA"]
-  },
-  {
-    title: "Intelligent Document Summarizer",
-    subtitle: "Local RAG Tool",
-    description: [
-      "Developed a local RAG system utilizing LangChain and FAISS for robust text chunking and efficient vector embedding of long documents.",
-      "Designed a dynamic UI allowing users to switch between architectures (BART, T5) to optimize summarization quality."
-    ],
-    tools: ["Python", "LangChain", "FAISS", "Streamlit"]
-  },
-  {
-    title: "Real-Time Sign Language & Emotion Recognition",
-    subtitle: "Computer Vision",
-    description: [
-      "Built a real-time CNN system recognizing 26 ASL gestures and emotions (FER-2013) using MediaPipe and GPU-accelerated training.",
-      "Curated a custom dataset and deployed the model via OpenCV for low-latency live prediction."
-    ],
-    tools: ["TensorFlow", "OpenCV", "MediaPipe"]
-  },
-  {
-    title: "Submarine ROV Control System",
-    subtitle: "ICMTC Competition - Team Leader",
-    description: [
-      "Architected the control system for an underwater drone, integrating IMU/depth sensors for stable propulsion and navigation.",
-      "Developed Python/C++ control logic to manage serial communication and motor actuation (T200 Thrusters)."
-    ],
-    tools: ["Python", "C++", "Arduino"]
-  }
-];
-
-// --- Components ---
-
-const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-900/90 backdrop-blur-md shadow-lg py-4' : 'bg-transparent py-6'}`}>
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-          AHM.
-        </a>
-        <div className="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-          <a href="#about" className="hover:text-cyan-400 transition-colors">About</a>
-          <a href="#skills" className="hover:text-cyan-400 transition-colors">Skills</a>
-          <a href="#experience" className="hover:text-cyan-400 transition-colors">Experience</a>
-          <a href="#projects" className="hover:text-cyan-400 transition-colors">Projects</a>
-        </div>
-        <a href="#contact" className="hidden md:inline-flex px-5 py-2 rounded-full border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-medium">
-          Contact Me
-        </a>
-      </div>
-    </nav>
-  );
-};
-
-const Hero = () => {
-  return (
-    <section id="home" className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 md:px-12 container mx-auto flex flex-col items-start min-h-[90vh] justify-center">
-      <p className="text-cyan-400 font-mono mb-4">Hi, my name is</p>
-      <h1 className="text-5xl md:text-7xl font-bold text-slate-100 mb-4 tracking-tight">
-        {personalInfo.name}.
-      </h1>
-      <h2 className="text-4xl md:text-6xl font-bold text-slate-400 mb-8">
-        I build intelligent AI systems.
-      </h2>
-      <p className="text-slate-400 max-w-2xl text-lg mb-10 leading-relaxed">
-        {personalInfo.summary}
-      </p>
-      
-      <div className="flex flex-wrap gap-4 mb-12">
-        <a href="#projects" className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold rounded-lg transition-colors flex items-center gap-2">
-          View Projects <ChevronRight className="w-4 h-4" />
-        </a>
-        <a href={`mailto:${personalInfo.email}`} className="px-6 py-3 border border-slate-700 hover:border-slate-500 text-slate-300 font-medium rounded-lg transition-colors flex items-center gap-2">
-          <Mail className="w-4 h-4" /> Email Me
-        </a>
-      </div>
-
-      <div className="flex items-center gap-6 text-slate-400">
-        <a href={`https://linkedin.com/in/${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className="hover:text-cyan-400 transition-colors">
-          <Linkedin className="w-6 h-6" />
-        </a>
-        <a href={`mailto:${personalInfo.email}`} className="hover:text-cyan-400 transition-colors">
-          <Mail className="w-6 h-6" />
-        </a>
-        <div className="flex items-center gap-2 text-sm font-mono">
-          <MapPin className="w-4 h-4 text-cyan-500" /> {personalInfo.location}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const About = () => {
-  return (
-    <section id="about" className="py-20 px-6 md:px-12 container mx-auto">
-      <h3 className="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
-        <span className="text-cyan-400 font-mono text-xl">01.</span> About Me
-        <div className="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
-      </h3>
-      
-      <div className="grid md:grid-cols-2 gap-12">
-        <div>
-          <p className="text-slate-400 leading-relaxed mb-6">
-            I am a passionate <span className="text-cyan-400">AI Engineer</span> dedicated to solving complex problems through data and algorithms. 
-            My expertise lies in bridging the gap between theoretical machine learning and practical, scalable applications.
-          </p>
-          <p className="text-slate-400 leading-relaxed">
-            Whether it's developing robust <span className="text-cyan-400">RAG pipelines</span>, architecting deep learning models for <span className="text-cyan-400">Computer Vision</span>, or optimizing machine learning workflows, I thrive on building intelligent systems that make a tangible impact.
-          </p>
-        </div>
-        
-        <div className="space-y-6">
-          <div className="bg-slate-800/50 border border-slate-700 p-6 rounded-xl">
-            <h4 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-              <GraduationCap className="w-5 h-5 text-cyan-400" /> Education
-            </h4>
-            <div>
-              <p className="font-medium text-slate-300">Bachelor of Science in Artificial Intelligence</p>
-              <p className="text-sm text-cyan-400 mb-1">Major: Artificial Intelligence</p>
-              <p className="text-sm text-slate-500">Egyptian Russian University (ERU)</p>
-            </div>
-          </div>
-
-          <div className="bg-slate-800/50 border border-slate-700 p-6 rounded-xl">
-            <h4 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-              <Globe className="w-5 h-5 text-cyan-400" /> Languages
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {personalInfo.languages.map((lang, i) => (
-                <span key={i} className="px-3 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs text-slate-300">
-                  {lang}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Skills = () => {
-  return (
-    <section id="skills" className="py-20 px-6 md:px-12 container mx-auto">
-      <h3 className="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
-        <span className="text-cyan-400 font-mono text-xl">02.</span> Technical Skills
-        <div className="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
-      </h3>
-      
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {skills.map((skillGroup, idx) => (
-          <div key={idx} className="bg-slate-800/40 border border-slate-700 hover:border-cyan-500/50 transition-colors p-6 rounded-xl group">
-            <div className="mb-4 p-3 bg-slate-900 rounded-lg inline-block group-hover:scale-110 transition-transform">
-              {skillGroup.icon}
-            </div>
-            <h4 className="text-lg font-semibold text-slate-200 mb-4">{skillGroup.category}</h4>
-            <ul className="space-y-2">
-              {skillGroup.items.map((item, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-slate-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const Experience = () => {
-  return (
-    <section id="experience" className="py-20 px-6 md:px-12 container mx-auto">
-      <h3 className="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
-        <span className="text-cyan-400 font-mono text-xl">03.</span> Experience
-        <div className="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
-      </h3>
-
-      <div className="max-w-3xl space-y-12">
-        {experience.map((exp, idx) => (
-          <div key={idx} className="relative pl-8 md:pl-0">
-            <div className="md:hidden absolute left-0 top-2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-900"></div>
-            <div className="hidden md:block absolute left-[-2.5rem] top-2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-900"></div>
-            
-            <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
-              <h4 className="text-xl font-semibold text-slate-200">
-                {exp.title} <span className="text-cyan-400">@ {exp.company}</span>
-              </h4>
-              <span className="text-sm font-mono text-slate-500 mt-1 md:mt-0">{exp.date}</span>
-            </div>
-            {exp.location && <p className="text-sm text-slate-400 mb-4 font-mono">{exp.location}</p>}
-            
-            <ul className="space-y-3 mt-4">
-              {exp.description.map((desc, i) => (
-                <li key={i} className="flex items-start gap-3 text-slate-400">
-                  <ChevronRight className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
-                  <span className="leading-relaxed">{desc}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const Projects = () => {
-  return (
-    <section id="projects" className="py-20 px-6 md:px-12 container mx-auto">
-      <h3 className="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
-        <span className="text-cyan-400 font-mono text-xl">04.</span> Technical Projects
-        <div className="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
-      </h3>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        {projects.map((project, idx) => (
-          <div key={idx} className="bg-slate-800/30 border border-slate-700 rounded-xl p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full group">
-            <div className="flex justify-between items-start mb-6">
-              <Code className="w-10 h-10 text-cyan-400" />
-            </div>
-            
-            <h4 className="text-xl font-bold text-slate-200 group-hover:text-cyan-400 transition-colors mb-1">
-              {project.title}
-            </h4>
-            <p className="text-sm font-mono text-slate-400 mb-4">{project.subtitle}</p>
-            
-            <div className="text-slate-400 text-sm mb-6 flex-grow space-y-2">
-              {project.description.map((desc, i) => (
-                <p key={i}>• {desc}</p>
-              ))}
-            </div>
-            
-            <ul className="flex flex-wrap gap-3 mt-auto pt-4 border-t border-slate-700/50">
-              {project.tools.map((tool, i) => (
-                <li key={i} className="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">
-                  {tool}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const Contact = () => {
-  return (
-    <section id="contact" className="py-32 px-6 md:px-12 container mx-auto text-center max-w-2xl">
-      <p className="text-cyan-400 font-mono mb-4 text-sm">05. What's Next?</p>
-      <h3 className="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h3>
-      <p className="text-slate-400 mb-10 leading-relaxed text-lg">
-        I'm currently looking for new opportunities to apply my skills in Generative AI and Machine Learning. 
-        Whether you have a question or just want to say hi, I'll try my best to get back to you!
-      </p>
-      
-      <div className="flex flex-col sm:flex-row justify-center gap-4">
-        <a href={`mailto:${personalInfo.email}`} className="px-8 py-4 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
-          <MessageSquare className="w-5 h-5" /> Say Hello
-        </a>
-        <a href={`https://linkedin.com/in/${personalInfo.linkedin}`} target="_blank" rel="noreferrer" className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
-          <Linkedin className="w-5 h-5" /> Connect on LinkedIn
-        </a>
-      </div>
-    </section>
-  );
-};
-
-const Footer = () => {
-  return (
-    <footer className="py-8 text-center bg-slate-900 border-t border-slate-800">
-      <p className="text-slate-500 text-sm font-mono flex items-center justify-center gap-2">
-        Built by {personalInfo.name} <Terminal className="w-4 h-4 text-cyan-500" /> 
-      </p>
-      <p className="text-slate-600 text-xs mt-2">
-        Powered by React & Tailwind CSS
-      </p>
-    </footer>
-  );
-};
-
-// --- Main App ---
-
-export default function App() {
-  return (
-    <div className="bg-slate-900 min-h-screen text-slate-300 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
-      <style dangerouslySetInnerHTML={{__html: `
-        html { scroll-behavior: smooth; }
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdelrahman Hosam - AI Engineer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
         body { margin: 0; padding: 0; }
         /* Custom Scrollbar for a premium feel */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
-      `}} />
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
-}
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-6">
+        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                AHM.
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
+                <a href="#skills" class="hover:text-cyan-400 transition-colors">Skills</a>
+                <a href="#experience" class="hover:text-cyan-400 transition-colors">Experience</a>
+                <a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-flex px-5 py-2 rounded-full border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-medium">
+                Contact Me
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="pt-32 pb-20 md:pt-48 md:pb-32 px-6 md:px-12 container mx-auto flex flex-col items-start min-h-[90vh] justify-center">
+            <p class="text-cyan-400 font-mono mb-4">Hi, my name is</p>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-100 mb-4 tracking-tight">
+                Abdelrahman Hosam.
+            </h1>
+            <h2 class="text-4xl md:text-6xl font-bold text-slate-400 mb-8">
+                I build intelligent AI systems.
+            </h2>
+            <p class="text-slate-400 max-w-2xl text-lg mb-10 leading-relaxed">
+                Versatile AI Engineer with comprehensive expertise spanning Computer Vision, Machine Learning, and Generative AI. Skilled in engineering end-to-end pipelines and deploying advanced Deep Learning architectures, including CNNs and Transformers.
+            </p>
+            
+            <div class="flex flex-wrap gap-4 mb-12">
+                <a href="#projects" class="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold rounded-lg transition-colors flex items-center gap-2">
+                    View Projects <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+                <a href="mailto:abdelrahmanhosam73@gmail.com" class="px-6 py-3 border border-slate-700 hover:border-slate-500 text-slate-300 font-medium rounded-lg transition-colors flex items-center gap-2">
+                    <i data-lucide="mail" class="w-4 h-4"></i> Email Me
+                </a>
+            </div>
+
+            <div class="flex items-center gap-6 text-slate-400">
+                <a href="https://linkedin.com/in/abdelrahmanhosam07" target="_blank" rel="noreferrer" class="hover:text-cyan-400 transition-colors">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+                <a href="mailto:abdelrahmanhosam73@gmail.com" class="hover:text-cyan-400 transition-colors">
+                    <i data-lucide="mail" class="w-6 h-6"></i>
+                </a>
+                <div class="flex items-center gap-2 text-sm font-mono">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-cyan-500"></i> Nasr City, Cairo, Egypt
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 px-6 md:px-12 container mx-auto">
+            <h3 class="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-cyan-400 font-mono text-xl">01.</span> About Me
+                <div class="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        I am a passionate <span class="text-cyan-400">AI Engineer</span> dedicated to solving complex problems through data and algorithms. My expertise lies in bridging the gap between theoretical machine learning and practical, scalable applications.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed">
+                        Whether it's developing robust <span class="text-cyan-400">RAG pipelines</span>, architecting deep learning models for <span class="text-cyan-400">Computer Vision</span>, or optimizing machine learning workflows, I thrive on building intelligent systems that make a tangible impact.
+                    </p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-slate-800/50 border border-slate-700 p-6 rounded-xl">
+                        <h4 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-cyan-400"></i> Education
+                        </h4>
+                        <div>
+                            <p class="font-medium text-slate-300">Bachelor of Science in Artificial Intelligence</p>
+                            <p class="text-sm text-cyan-400 mb-1">Major: Artificial Intelligence</p>
+                            <p class="text-sm text-slate-500">Egyptian Russian University (ERU)</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/50 border border-slate-700 p-6 rounded-xl">
+                        <h4 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                            <i data-lucide="globe" class="w-5 h-5 text-cyan-400"></i> Languages
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs text-slate-300">English (Professional)</span>
+                            <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs text-slate-300">German (Intermediate B1)</span>
+                            <span class="px-3 py-1 bg-slate-900 border border-slate-700 rounded-full text-xs text-slate-300">Arabic (Native)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 px-6 md:px-12 container mx-auto">
+            <h3 class="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-cyan-400 font-mono text-xl">02.</span> Technical Skills
+                <div class="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
+            </h3>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Generative AI -->
+                <div class="bg-slate-800/40 border border-slate-700 hover:border-cyan-500/50 transition-colors p-6 rounded-xl group">
+                    <div class="mb-4 p-3 bg-slate-900 rounded-lg inline-block group-hover:scale-110 transition-transform">
+                        <i data-lucide="brain" class="w-6 h-6 text-purple-400"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-slate-200 mb-4">Generative AI</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> LLMs</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> RAG</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Agents</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Transformers (BERT, GPT)</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Prompt Engineering</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Fine-tuning (LoRA/PEFT)</li>
+                    </ul>
+                </div>
+
+                <!-- Machine Learning -->
+                <div class="bg-slate-800/40 border border-slate-700 hover:border-cyan-500/50 transition-colors p-6 rounded-xl group">
+                    <div class="mb-4 p-3 bg-slate-900 rounded-lg inline-block group-hover:scale-110 transition-transform">
+                        <i data-lucide="cpu" class="w-6 h-6 text-blue-400"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-slate-200 mb-4">Machine Learning</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> PCA</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Clustering (K-Means)</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Random Forest & XGBoost</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Scikit-learn</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Regression & Classification</li>
+                    </ul>
+                </div>
+
+                <!-- Computer Vision -->
+                <div class="bg-slate-800/40 border border-slate-700 hover:border-cyan-500/50 transition-colors p-6 rounded-xl group">
+                    <div class="mb-4 p-3 bg-slate-900 rounded-lg inline-block group-hover:scale-110 transition-transform">
+                        <i data-lucide="scan-face" class="w-6 h-6 text-teal-400"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-slate-200 mb-4">Computer Vision</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> OpenCV</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> CNNs</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Object Detection</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> MediaPipe</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Facial Recognition</li>
+                    </ul>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="bg-slate-800/40 border border-slate-700 hover:border-cyan-500/50 transition-colors p-6 rounded-xl group">
+                    <div class="mb-4 p-3 bg-slate-900 rounded-lg inline-block group-hover:scale-110 transition-transform">
+                        <i data-lucide="terminal" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-slate-200 mb-4">Tech Stack</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Python (Advanced)</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> PyTorch & TensorFlow</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> LangChain & FAISS</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Streamlit</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> SQL, Docker, Git</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20 px-6 md:px-12 container mx-auto">
+            <h3 class="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-cyan-400 font-mono text-xl">03.</span> Experience
+                <div class="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
+            </h3>
+
+            <div class="max-w-3xl space-y-12">
+                <!-- Job 1 -->
+                <div class="relative pl-8 md:pl-0">
+                    <div class="md:hidden absolute left-0 top-2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-900"></div>
+                    <div class="hidden md:block absolute left-[-2.5rem] top-2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-900"></div>
+                    
+                    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
+                        <h4 class="text-xl font-semibold text-slate-200">
+                            Generative AI Engineer Fellow <span class="text-cyan-400">@ Digital Egypt Pioneers Initiative (DEPI)</span>
+                        </h4>
+                        <span class="text-sm font-mono text-slate-500 mt-1 md:mt-0">Nov 2025 - Present</span>
+                    </div>
+                    
+                    <ul class="space-y-3 mt-4 text-slate-400">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
+                            <span class="leading-relaxed">Selected for a government-backed fellowship to engineer advanced Generative AI applications using Transformers and Self-Attention mechanisms.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
+                            <span class="leading-relaxed">Building scalable RAG systems and autonomous Agents with memory management to execute complex multi-step workflows.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="relative pl-8 md:pl-0">
+                    <div class="md:hidden absolute left-0 top-2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-900"></div>
+                    <div class="hidden md:block absolute left-[-2.5rem] top-2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-900"></div>
+                    
+                    <div class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
+                        <h4 class="text-xl font-semibold text-slate-200">
+                            Machine Learning Engineer Trainee <span class="text-cyan-400">@ Sprints (Microsoft Partner)</span>
+                        </h4>
+                        <span class="text-sm font-mono text-slate-500 mt-1 md:mt-0">Aug 2024 - Oct 2024</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-4 font-mono">Remote</p>
+                    
+                    <ul class="space-y-3 mt-4 text-slate-400">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
+                            <span class="leading-relaxed">Completed an intensive track, building end-to-end pipelines and optimizing model accuracy by over 15% via feature engineering.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
+                            <span class="leading-relaxed">Capstone: Developed a predictive analytics model utilizing Scikit-learn and Deep Learning (TensorFlow) for regression and classification tasks.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-6 md:px-12 container mx-auto">
+            <h3 class="text-3xl font-bold text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-cyan-400 font-mono text-xl">04.</span> Technical Projects
+                <div class="h-px bg-slate-700 flex-grow ml-4 max-w-xs"></div>
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full group">
+                    <div class="mb-6"><i data-lucide="code" class="w-10 h-10 text-cyan-400"></i></div>
+                    <h4 class="text-xl font-bold text-slate-200 group-hover:text-cyan-400 transition-colors mb-1">Clinical Decision Support System</h4>
+                    <p class="text-sm font-mono text-slate-400 mb-4">Heart Disease Prediction</p>
+                    <div class="text-slate-400 text-sm mb-6 flex-grow space-y-2">
+                        <p>• Engineered an end-to-end pipeline on the UCI dataset, benchmarking models (SVM, Random Forest) to maximize recall for disease prediction.</p>
+                        <p>• Applied unsupervised learning (K-Means) and PCA to discover hidden patient risk patterns and reduce dimensionality.</p>
+                    </div>
+                    <ul class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-slate-700/50">
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">Scikit-learn</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">Pandas</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">PCA</li>
+                    </ul>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full group">
+                    <div class="mb-6"><i data-lucide="code" class="w-10 h-10 text-cyan-400"></i></div>
+                    <h4 class="text-xl font-bold text-slate-200 group-hover:text-cyan-400 transition-colors mb-1">Intelligent Document Summarizer</h4>
+                    <p class="text-sm font-mono text-slate-400 mb-4">Local RAG Tool</p>
+                    <div class="text-slate-400 text-sm mb-6 flex-grow space-y-2">
+                        <p>• Developed a local RAG system utilizing LangChain and FAISS for robust text chunking and efficient vector embedding of long documents.</p>
+                        <p>• Designed a dynamic UI allowing users to switch between architectures (BART, T5) to optimize summarization quality.</p>
+                    </div>
+                    <ul class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-slate-700/50">
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">Python</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">LangChain</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">FAISS</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">Streamlit</li>
+                    </ul>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full group">
+                    <div class="mb-6"><i data-lucide="code" class="w-10 h-10 text-cyan-400"></i></div>
+                    <h4 class="text-xl font-bold text-slate-200 group-hover:text-cyan-400 transition-colors mb-1">Real-Time Sign Language & Emotion Recognition</h4>
+                    <p class="text-sm font-mono text-slate-400 mb-4">Computer Vision</p>
+                    <div class="text-slate-400 text-sm mb-6 flex-grow space-y-2">
+                        <p>• Built a real-time CNN system recognizing 26 ASL gestures and emotions (FER-2013) using MediaPipe and GPU-accelerated training.</p>
+                        <p>• Curated a custom dataset and deployed the model via OpenCV for low-latency live prediction.</p>
+                    </div>
+                    <ul class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-slate-700/50">
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">TensorFlow</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">OpenCV</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">MediaPipe</li>
+                    </ul>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-8 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full group">
+                    <div class="mb-6"><i data-lucide="code" class="w-10 h-10 text-cyan-400"></i></div>
+                    <h4 class="text-xl font-bold text-slate-200 group-hover:text-cyan-400 transition-colors mb-1">Submarine ROV Control System</h4>
+                    <p class="text-sm font-mono text-slate-400 mb-4">ICMTC Competition - Team Leader</p>
+                    <div class="text-slate-400 text-sm mb-6 flex-grow space-y-2">
+                        <p>• Architected the control system for an underwater drone, integrating IMU/depth sensors for stable propulsion and navigation.</p>
+                        <p>• Developed Python/C++ control logic to manage serial communication and motor actuation (T200 Thrusters).</p>
+                    </div>
+                    <ul class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-slate-700/50">
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">Python</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">C++</li>
+                        <li class="text-xs font-mono text-cyan-400/80 bg-cyan-400/10 px-2 py-1 rounded">Arduino</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-32 px-6 md:px-12 container mx-auto text-center max-w-2xl">
+            <p class="text-cyan-400 font-mono mb-4 text-sm">05. What's Next?</p>
+            <h3 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h3>
+            <p class="text-slate-400 mb-10 leading-relaxed text-lg">
+                I'm currently looking for new opportunities to apply my skills in Generative AI and Machine Learning. 
+                Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="mailto:abdelrahmanhosam73@gmail.com" class="px-8 py-4 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="message-square" class="w-5 h-5"></i> Say Hello
+                </a>
+                <a href="https://linkedin.com/in/abdelrahmanhosam07" target="_blank" rel="noreferrer" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i> Connect on LinkedIn
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center bg-slate-900 border-t border-slate-800">
+        <p class="text-slate-500 text-sm font-mono flex items-center justify-center gap-2">
+            Built by Abdelrahman Hosam <i data-lucide="terminal" class="w-4 h-4 text-cyan-500"></i> 
+        </p>
+        <p class="text-slate-600 text-xs mt-2">
+            Powered by HTML & Tailwind CSS
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-slate-900/90', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                nav.classList.remove('bg-transparent', 'py-6');
+            } else {
+                nav.classList.add('bg-transparent', 'py-6');
+                nav.classList.remove('bg-slate-900/90', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+            }
+        });
+    </script>
+</body>
+</html>
